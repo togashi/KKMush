@@ -2,12 +2,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical"
+    android:orientation="horizontal"
     android:padding="10dp" >
 
     <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="0dp"
+        android:layout_width="0dp"
+        android:layout_height="fill_parent"
         android:orientation="vertical"
         android:layout_weight="1">
         
@@ -52,9 +52,10 @@
 
     <LinearLayout
         android:layout_marginTop="10dp"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="200sp"
+        android:layout_height="fill_parent"
         android:orientation="vertical"
+        android:gravity="bottom"
         android:padding="20dp">
         <TextView
             android:layout_width="fill_parent"
@@ -66,8 +67,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:max="3"
-            android:progress="1"
-            />
+            android:progress="1" />
 
         <RatingBar
             android:id="@+id/ratingBar1"
