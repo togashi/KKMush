@@ -5,7 +5,10 @@ import java.util.regex.Pattern;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.text.ClipboardManager;
 import android.text.TextUtils;
 import android.util.Log;
@@ -20,16 +23,18 @@ public class KKMushActivity extends Activity implements OnSeekBarChangeListener 
     private static final String ACTION_INTERCEPT = "com.adamrocker.android.simeji.ACTION_INTERCEPT";
     private static final String REPLACE_KEY = "replace_key";
     
+    private static final String PREF_KEY_LEVEL = "pref_key_level";
+    
     private static final Pattern mGobi = Pattern.compile("([^a-zA-Z0-9 　。ッ]+)[ 　。!！\\?？]");
     private static final Pattern mBunmatsu = Pattern.compile(".*[^a-z0-9 　。ッ]$");
     
     private String mInputStr = "";
     private String mOutputStr = "";
     
-    private static final int PROC_MODE_MUSHROOM = 0;
-    private static final int PROC_MODE_CLIPBOARD = 1;
+    //private static final int PROC_MODE_MUSHROOM = 0;
+    //private static final int PROC_MODE_CLIPBOARD = 1;
     
-    private int mMode = PROC_MODE_MUSHROOM;
+    //private int mMode = PROC_MODE_MUSHROOM;
     
     private String convert(final String src, final int level) {
         String outStr = new String(src);
@@ -84,11 +89,12 @@ public class KKMushActivity extends Activity implements OnSeekBarChangeListener 
     
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        
         Intent input = getIntent();
         String action = input.getAction();
         if (action != null && ACTION_INTERCEPT.equals(action)) {
             mInputStr = input.getStringExtra(REPLACE_KEY);
-            mMode = PROC_MODE_MUSHROOM;
+            //mMode = PROC_MODE_MUSHROOM;
         }
         
         if (TextUtils.isEmpty(mInputStr)) {
@@ -96,7 +102,7 @@ public class KKMushActivity extends Activity implements OnSeekBarChangeListener 
             CharSequence cs = cbm.getText();
             if (cs != null) {
                 mInputStr = cs.toString();
-                mMode = PROC_MODE_CLIPBOARD;
+                //mMode = PROC_MODE_CLIPBOARD;
             }
         }
         
@@ -121,6 +127,36 @@ public class KKMushActivity extends Activity implements OnSeekBarChangeListener 
                     finish();
                 }
             });
+        }
+    }
+    
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.i("TAG", "onResume");
+        SeekBar sb = (SeekBar)findViewById(R.id.seekBar1);
+        if (sb != null) {
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+            int savedLevel = prefs.getInt(PREF_KEY_LEVEL, 1);
+            sb.setProgress(savedLevel);
+        }
+        update();
+    }
+    
+    @Override
+    public void onPause() {
+        super.onPause();
+        Log.i("TAG", "onPause");
+        SeekBar sb = (SeekBar)findViewById(R.id.seekBar1);
+        if (sb != null) {
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+            int savedLevel = prefs.getInt(PREF_KEY_LEVEL, 1);
+            int currentLevel = sb.getProgress();
+            if (savedLevel != currentLevel) {
+                Editor editor = prefs.edit();
+                editor.putInt(PREF_KEY_LEVEL, currentLevel);
+                editor.commit();
+            }
         }
     }
     
