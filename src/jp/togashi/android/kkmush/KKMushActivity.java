@@ -25,16 +25,11 @@ public class KKMushActivity extends Activity implements OnSeekBarChangeListener 
     
     private static final String PREF_KEY_LEVEL = "pref_key_level";
     
-    private static final Pattern mGobi = Pattern.compile("([^a-zA-Z0-9 　。ッ]+)[ 　。!！\\?？]");
+    private static final Pattern mGobi = Pattern.compile("([^a-zA-Z0-9 　。ッ]+)([ 　。!！\\?？])");
     private static final Pattern mBunmatsu = Pattern.compile(".*[^a-z0-9 　。ッ]$");
     
     private String mInputStr = "";
-    private String mOutputStr = "";
-    
-    //private static final int PROC_MODE_MUSHROOM = 0;
-    //private static final int PROC_MODE_CLIPBOARD = 1;
-    
-    //private int mMode = PROC_MODE_MUSHROOM;
+    private String mOutputStr;
     
     private String convert(final String src, final int level) {
         String outStr = new String(src);
@@ -49,12 +44,7 @@ public class KKMushActivity extends Activity implements OnSeekBarChangeListener 
         
         if (level >= 3) {
             Matcher m = mGobi.matcher(outStr);
-            while (m.find()) {
-                StringBuilder sb = new StringBuilder();
-                sb.append(outStr.substring(0, m.end(1))).append("ッ").append(outStr.substring(m.end(1)));
-                outStr = sb.toString();
-                m = mGobi.matcher(outStr);
-            }
+            outStr = m.replaceAll("$1ッ$2");
         }
         
         if (level >= 4) {
@@ -67,23 +57,33 @@ public class KKMushActivity extends Activity implements OnSeekBarChangeListener 
         return outStr;
     }
     
-    private void update() {
+    private int getLevel() {
         int lv = 1;
         SeekBar sb = (SeekBar)findViewById(R.id.seekBar1);
         if (sb != null) {
             lv = sb.getProgress() + 1;
         }
+        return lv;
+    }
+    
+    private void update() {
+        int lv = getLevel();
         
         TextView tv = (TextView)findViewById(R.id.beforetext);
         if (tv != null) {
             tv.setText(mInputStr);
         }
         
-        mOutputStr = convert(mInputStr, lv);
+        tv = (TextView)findViewById(R.id.koikelevel);
+        if (tv != null) {
+            tv.setText(String.format(getResources().getString(R.string.koikelevel), lv));
+        }
+        
+        String after = convert(mInputStr, lv);
         
         tv = (TextView)findViewById(R.id.aftertext);
         if (tv != null) {
-            tv.setText(mOutputStr);
+            tv.setText(after);
         }
     }
     
@@ -94,7 +94,6 @@ public class KKMushActivity extends Activity implements OnSeekBarChangeListener 
         String action = input.getAction();
         if (action != null && ACTION_INTERCEPT.equals(action)) {
             mInputStr = input.getStringExtra(REPLACE_KEY);
-            //mMode = PROC_MODE_MUSHROOM;
         }
         
         if (TextUtils.isEmpty(mInputStr)) {
@@ -102,7 +101,6 @@ public class KKMushActivity extends Activity implements OnSeekBarChangeListener 
             CharSequence cs = cbm.getText();
             if (cs != null) {
                 mInputStr = cs.toString();
-                //mMode = PROC_MODE_CLIPBOARD;
             }
         }
         
@@ -110,53 +108,24 @@ public class KKMushActivity extends Activity implements OnSeekBarChangeListener 
             finish();
             return;
         }
-            
+        mOutputStr = new String(mInputStr);
+        
         setContentView(R.layout.main);
         
         SeekBar sb = (SeekBar)findViewById(R.id.seekBar1);
         if (sb != null) {
             sb.setOnSeekBarChangeListener(this);
         }
-        update();
         
         Button btn = (Button)findViewById(R.id.okbutton);
         if (btn != null) {
             btn.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    mOutputStr = convert(mInputStr, getLevel());
                     finish();
                 }
             });
-        }
-    }
-    
-    @Override
-    public void onResume() {
-        super.onResume();
-        Log.i("TAG", "onResume");
-        SeekBar sb = (SeekBar)findViewById(R.id.seekBar1);
-        if (sb != null) {
-            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-            int savedLevel = prefs.getInt(PREF_KEY_LEVEL, 1);
-            sb.setProgress(savedLevel);
-        }
-        update();
-    }
-    
-    @Override
-    public void onPause() {
-        super.onPause();
-        Log.i("TAG", "onPause");
-        SeekBar sb = (SeekBar)findViewById(R.id.seekBar1);
-        if (sb != null) {
-            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-            int savedLevel = prefs.getInt(PREF_KEY_LEVEL, 1);
-            int currentLevel = sb.getProgress();
-            if (savedLevel != currentLevel) {
-                Editor editor = prefs.edit();
-                editor.putInt(PREF_KEY_LEVEL, currentLevel);
-                editor.commit();
-            }
         }
     }
     
@@ -171,7 +140,35 @@ public class KKMushActivity extends Activity implements OnSeekBarChangeListener 
         }
         super.finish();
     }
-
+    
+    @Override
+    public void onResume() {
+        super.onResume();
+        SeekBar sb = (SeekBar)findViewById(R.id.seekBar1);
+        if (sb != null) {
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+            int savedLevel = prefs.getInt(PREF_KEY_LEVEL, 1);
+            sb.setProgress(savedLevel);
+        }
+        update();
+    }
+    
+    @Override
+    public void onPause() {
+        super.onPause();
+        SeekBar sb = (SeekBar)findViewById(R.id.seekBar1);
+        if (sb != null) {
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+            int savedLevel = prefs.getInt(PREF_KEY_LEVEL, 1);
+            int currentLevel = sb.getProgress();
+            if (savedLevel != currentLevel) {
+                Editor editor = prefs.edit();
+                editor.putInt(PREF_KEY_LEVEL, currentLevel);
+                editor.commit();
+            }
+        }
+    }
+    
     @Override
     public void onProgressChanged(SeekBar seekBar, int progress,
             boolean fromUser) {

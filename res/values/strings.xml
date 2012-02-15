@@ -4,6 +4,6 @@
     
     <string name="beforetext">変換前</string>
     <string name="aftertext">変換後</string>
-    <string name="koikelevel">レベル (1～4)</string>
+    <string name="koikelevel">レベル (%d/4)</string>
     <string name="okbutton">OK</string>
 </resources>
