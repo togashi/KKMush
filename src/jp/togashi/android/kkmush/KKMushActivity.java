@@ -40,6 +40,7 @@ public class KKMushActivity extends Activity implements OnSeekBarChangeListener 
         
         if (level >= 2) {
             outStr = outStr.replace("っ", "ッ");
+            outStr = outStr.replace("ゃあ", "ゃア");
         }
         
         if (level >= 3) {
