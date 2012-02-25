@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">小池一夫マッシュLite</string>
-    
+    <string name="app_name">K.K.マッシュ</string>
     <string name="beforetext">変換前</string>
     <string name="aftertext">変換後</string>
     <string name="koikelevel">レベル (%d/4)</string>
