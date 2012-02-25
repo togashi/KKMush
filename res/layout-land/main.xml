@@ -58,6 +58,7 @@
         android:gravity="bottom"
         android:padding="20dp">
         <TextView
+            android:id="@+id/koikelevel"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"

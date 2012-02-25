@@ -4,14 +4,20 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.ClipboardManager;
 import android.text.TextUtils;
-import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -109,7 +115,6 @@ public class KKMushActivity extends Activity implements OnSeekBarChangeListener 
             finish();
             return;
         }
-        mOutputStr = new String(mInputStr);
         
         setContentView(R.layout.main);
         
@@ -183,4 +188,56 @@ public class KKMushActivity extends Activity implements OnSeekBarChangeListener 
     @Override
     public void onStopTrackingTouch(SeekBar seekBar) {
     }
+
+    private static final int DLG_ABOUT = 0;
+    
+    @Override
+    protected Dialog onCreateDialog(int id) {
+        Dialog dlg = null;
+        
+        if (id == DLG_ABOUT) {
+            View cv = getLayoutInflater().inflate(R.layout.about, null);
+            TextView version = (TextView) cv.findViewById(R.id.versionTextView);
+            PackageInfo pi;
+            try {
+                pi = getPackageManager().getPackageInfo(getPackageName(), 0);
+                version.setText(String.format("%s %s", getString(R.string.label_version), pi.versionName));
+            } catch (NameNotFoundException e) {
+                e.printStackTrace();
+            }
+            AlertDialog.Builder bldr = new AlertDialog.Builder(this);
+            bldr.setTitle(R.string.menu_about);
+            bldr.setIcon(R.drawable.kkmush_icon_launcher);
+            bldr.setView(cv);
+            bldr.setPositiveButton(R.string.button_dismiss, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+            dlg = bldr.create();
+        }
+        
+        return dlg;
+    }
+    
+    private boolean showAbout() {
+        showDialog(DLG_ABOUT);
+        return true;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.menu_about && showAbout()) {
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+    
 }
