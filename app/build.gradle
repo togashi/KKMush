@@ -1,0 +1,38 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 25
+    buildToolsVersion "25.0.2"
+
+    defaultConfig {
+        applicationId "jp.togashi.android.kkmush"
+        minSdkVersion 9
+        targetSdkVersion 25
+        versionCode 2
+        versionName '1.1.0'
+
+        archivesBaseName = "kkmush-${versionName}_${versionCode}"
+    }
+
+    signingConfigs {
+        release {}
+        if (file('../../signing-release.gradle').exists()) {
+            apply from: '../../signing-release.gradle', to: release
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+            signingConfig signingConfigs.release
+        }
+    }
+}
+
+dependencies {
+    def VER_SUPPORT = '25.1.1'
+    compile "com.android.support:appcompat-v7:$VER_SUPPORT"
+
+    compile 'com.jakewharton.timber:timber:4.5.1'
+}
