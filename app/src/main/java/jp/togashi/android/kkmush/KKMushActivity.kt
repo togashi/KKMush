@@ -151,7 +151,7 @@ class KKMushActivity : AppCompatActivity() {
         override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
             return AlertDialog.Builder(context).apply {
                 setTitle(R.string.menu_about)
-                setIcon(R.drawable.kkmush_icon_launcher)
+                setIcon(R.mipmap.ic_launcher)
                 setView(View.inflate(context, R.layout.about, null).apply {
                     (findViewById(R.id.versionTextView) as TextView?)?.text = BuildConfig.VERSION_NAME
                 })
