@@ -1,90 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:orientation="vertical"
-    android:padding="10dp" >
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10dp">
+
+    <RelativeLayout
+        android:layout_alignParentTop="true"
+        android:layout_above="@+id/tool_panel"
+        android:layout_width="match_parent"
+        android:layout_height="0dp">
+        
+        <android.support.v4.widget.Space
+            android:id="@+id/center"
+            android:layout_centerInParent="true"
+            android:layout_width="0dp"
+            android:layout_height="10dp" />
+
+        <TextView
+            android:id="@+id/before_caption"
+            android:layout_alignParentTop="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/before_text"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+        <TextView
+            android:id="@+id/before_text"
+            android:layout_below="@id/before_caption"
+            android:layout_above="@id/center"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            tools:text="before" />
+
+        <TextView
+            android:id="@+id/after_caption"
+            android:layout_below="@id/center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/after_text"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+        <TextView
+            android:id="@+id/after_text"
+            android:layout_below="@id/after_caption"
+            android:layout_alignParentBottom="true"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            tools:text="after" />
+
+    </RelativeLayout>
 
     <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="0dp"
-        android:orientation="vertical"
-        android:layout_weight="1">
-        
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="0dp"
-            android:orientation="vertical"
-            android:layout_weight="1">
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="@string/beforetext" />
-            <TextView
-                android:id="@+id/beforetext"
-                android:layout_width="fill_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:text="before" />
-        </LinearLayout>
-        
-        <LinearLayout
-            android:layout_marginTop="10dp"
-            android:layout_width="fill_parent"
-            android:layout_height="0dp"
-            android:orientation="vertical"
-            android:layout_weight="1">
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="@string/aftertext" />
-            <TextView
-                android:id="@+id/aftertext"
-                android:layout_width="fill_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:text="after" />
-        </LinearLayout>
-        
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_marginTop="10dp"
-        android:layout_width="fill_parent"
+        android:id="@+id/tool_panel"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:orientation="vertical"
         android:padding="20dp">
+
         <TextView
-            android:id="@+id/koikelevel"
-            android:layout_width="fill_parent"
+            android:id="@+id/koike_level"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="@string/koikelevel" />
+            android:text="@string/koikelevel"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
         <SeekBar
             android:id="@+id/seekBar1"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:max="3"
-            android:progress="1"
-            />
-
-        <RatingBar
-            android:id="@+id/ratingBar1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:numStars="4"
-            android:stepSize="1.0"
-            android:layout_gravity="center_horizontal"
-            android:visibility="gone" />
+            android:progress="1" />
 
         <Button
             android:id="@+id/okbutton"
-            android:layout_marginTop="15dp"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
             android:text="@string/okbutton" />
     </LinearLayout>
 
-</LinearLayout>
+</RelativeLayout>
