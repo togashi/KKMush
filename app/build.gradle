@@ -12,6 +12,8 @@ android {
         versionCode 3
         versionName '1.2.0'
 
+        buildConfigField 'String', 'GIT_BRANCH', "\"${'git rev-parse --abbrev-ref HEAD'.execute([], project.rootDir).text.trim()}\""
+        buildConfigField 'String', 'GIT_COMMIT', "\"${'git rev-parse HEAD'.execute([], project.rootDir).text.trim()}\""
         archivesBaseName = "kkmush-${versionName}_${versionCode}"
     }
 
