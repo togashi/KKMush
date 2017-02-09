@@ -1,83 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal"
-    android:layout_width="fill_parent"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="10dp">
+    android:orientation="horizontal"
+    android:padding="10dp"
+    android:baselineAligned="false">
+
     <LinearLayout
-	    android:orientation="vertical"
-	    android:layout_width="0dp"
-	    android:layout_height="wrap_content"
-	    android:layout_weight="1.0"
-	    android:gravity="center_horizontal">
-	    <TextView
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:text="@string/app_name"
-	        android:textAppearance="@android:style/TextAppearance.Large"
-	        />
-	    <TextView
-	        android:id="@+id/versionTextView"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:text="Version X.X"
-	        android:textAppearance="@android:style/TextAppearance.Theme.Dialog"
-	        />
-	    <TextView
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:autoLink="all"
-	        android:linksClickable="true"
-	        android:text="@string/msg_about"
-	        android:textAppearance="@android:style/TextAppearance.Theme.Dialog"
-	        />
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1.0"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/app_name"
+            android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+
+        <TextView
+            android:id="@+id/versionTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="14sp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            tools:text="Version X.X" />
+
     </LinearLayout>
+
     <TableLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-	    android:layout_weight="1.0">
+        android:layout_weight="1.0">
+
         <TableRow>
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="@android:style/TextAppearance.Theme.Dialog"
-                android:text="@string/about_dt_author" />
+                android:text="@string/about_dt_author"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="6sp"
-                android:textAppearance="@android:style/TextAppearance.Theme.Dialog"
+                android:layout_marginStart="6sp"
                 android:autoLink="all"
-                android:text="@string/about_dd_author" />
+                android:text="@string/about_dd_author"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
+
         </TableRow>
-<!--         <TableRow> -->
-<!--             <TextView -->
-<!--                 android:layout_width="wrap_content" -->
-<!--                 android:layout_height="wrap_content" -->
-<!--                 android:textAppearance="@android:style/TextAppearance.Theme.Dialog" -->
-<!--                 android:text="@string/about_dt_web" /> -->
-<!--             <TextView -->
-<!--                 android:layout_width="wrap_content" -->
-<!--                 android:layout_height="wrap_content" -->
-<!--                 android:layout_marginLeft="6sp" -->
-<!--                 android:textAppearance="@android:style/TextAppearance.Theme.Dialog" -->
-<!--                 android:autoLink="all" -->
-<!--                 android:text="@string/about_dd_web" /> -->
-<!--         </TableRow> -->
+
         <TableRow>
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="@android:style/TextAppearance.Theme.Dialog"
-                android:text="@string/about_dt_email" />
+                android:text="@string/about_dt_email"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="6sp"
-                android:textAppearance="@android:style/TextAppearance.Theme.Dialog"
+                android:layout_marginStart="6sp"
                 android:autoLink="all"
-                android:text="@string/about_dd_email" />
+                android:text="@string/about_dd_email"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
+
         </TableRow>
+
     </TableLayout>
+
 </LinearLayout>

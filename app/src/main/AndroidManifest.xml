@@ -3,11 +3,11 @@
     package="jp.togashi.android.kkmush">
 
     <application
-        android:icon="@drawable/kkmush_icon_launcher"
-        android:label="@string/app_name" >
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme">
         
         <activity android:name=".KKMushActivity"
-            android:icon="@drawable/kkmush_icon_launcher"
             android:label="@string/app_name">
 
             <intent-filter>
