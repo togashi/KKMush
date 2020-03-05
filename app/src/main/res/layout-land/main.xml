@@ -13,7 +13,7 @@
         android:layout_toLeftOf="@+id/tool_panel"
         android:layout_toStartOf="@+id/tool_panel">
 
-        <android.support.v4.widget.Space
+        <androidx.legacy.widget.Space
             android:id="@+id/center"
             android:layout_width="0dp"
             android:layout_height="10dp"

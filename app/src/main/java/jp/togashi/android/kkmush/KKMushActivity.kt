@@ -2,14 +2,11 @@ package jp.togashi.android.kkmush
 
 import android.app.Activity
 import android.app.Dialog
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.preference.PreferenceManager
-import android.support.v7.app.AlertDialog
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.app.AppCompatDialogFragment
-import android.text.ClipboardManager
 import android.text.TextUtils
 import android.view.Menu
 import android.view.MenuItem
@@ -18,20 +15,22 @@ import android.widget.Button
 import android.widget.SeekBar
 import android.widget.SeekBar.OnSeekBarChangeListener
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDialogFragment
+import androidx.preference.PreferenceManager
 import java.util.regex.Pattern
 
 class KKMushActivity : AppCompatActivity() {
 
     companion object {
-        private val ACTION_INTERCEPT = "com.adamrocker.android.simeji.ACTION_INTERCEPT"
-        private val REPLACE_KEY = "replace_key"
+        private const val ACTION_INTERCEPT = "com.adamrocker.android.simeji.ACTION_INTERCEPT"
+        private const val REPLACE_KEY = "replace_key"
 
-        private val PREF_KEY_LEVEL = "pref_key_level"
+        private const val PREF_KEY_LEVEL = "pref_key_level"
 
         private val mGobi = Pattern.compile("([^a-zA-Z0-9 　。ッ]+)([ 　。!！\\?？])")
         private val mBunmatsu = Pattern.compile(".*[^a-z0-9 　。ッ]$")
-
-        private val DLG_ABOUT = 0
     }
 
     private var mInputStr: String? = null
@@ -66,14 +65,14 @@ class KKMushActivity : AppCompatActivity() {
 
     private val level: Int
         get() {
-            return (findViewById(R.id.seekBar1) as SeekBar?)?.let { it.progress + 1 } ?: 1
+            return (findViewById<SeekBar>(R.id.seekBar1))?.let { it.progress + 1 } ?: 1
         }
 
     private fun update() {
         val lv = level
-        (findViewById(R.id.before_text) as TextView?)?.text = mInputStr
-        (findViewById(R.id.koike_level) as TextView?)?.text = getString(R.string.koikelevel, lv)
-        (findViewById(R.id.after_text) as TextView?)?.text = convert(mInputStr ?: "", lv)
+        (findViewById<TextView>(R.id.before_text))?.text = mInputStr
+        (findViewById<TextView>(R.id.koike_level))?.text = getString(R.string.koikelevel, lv)
+        (findViewById<TextView>(R.id.after_text))?.text = convert(mInputStr ?: "", lv)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -85,7 +84,7 @@ class KKMushActivity : AppCompatActivity() {
 
         if (mInputStr.isNullOrEmpty()) {
             val cbm = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-            mInputStr = cbm.text?.toString()
+            mInputStr = cbm.primaryClip?.getItemAt(0)?.text.toString()
         }
 
         if (mInputStr.isNullOrEmpty()) {
@@ -95,9 +94,9 @@ class KKMushActivity : AppCompatActivity() {
 
         setContentView(R.layout.main)
 
-        (findViewById(R.id.seekBar1) as SeekBar?)?.setOnSeekBarChangeListener(seekBarChangeListener)
+        (findViewById<SeekBar>(R.id.seekBar1))?.setOnSeekBarChangeListener(seekBarChangeListener)
 
-        (findViewById(R.id.okbutton) as Button?)?.setOnClickListener {
+        (findViewById<Button>(R.id.okbutton))?.setOnClickListener {
             mOutputStr = convert(mInputStr ?: "", level)
             finish()
         }
@@ -109,14 +108,14 @@ class KKMushActivity : AppCompatActivity() {
             output.putExtra(REPLACE_KEY, mOutputStr)
             setResult(Activity.RESULT_OK, output)
             val cbm = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-            cbm.text = mOutputStr
+            cbm.setPrimaryClip(ClipData.newPlainText(getString(R.string.after_text), mOutputStr))
         }
         super.finish()
     }
 
     public override fun onResume() {
         super.onResume()
-        val sb = findViewById(R.id.seekBar1) as SeekBar
+        val sb = findViewById<SeekBar>(R.id.seekBar1)
         if (sb != null) {
             val prefs = PreferenceManager.getDefaultSharedPreferences(applicationContext)
             val savedLevel = prefs.getInt(PREF_KEY_LEVEL, 1)
@@ -127,7 +126,7 @@ class KKMushActivity : AppCompatActivity() {
 
     public override fun onPause() {
         super.onPause()
-        val currentLevel = (findViewById(R.id.seekBar1) as SeekBar?)?.progress ?: 1
+        val currentLevel = (findViewById<SeekBar>(R.id.seekBar1))?.progress ?: 1
         PreferenceManager.getDefaultSharedPreferences(applicationContext).apply {
             if (currentLevel != getInt(PREF_KEY_LEVEL, 1)) {
                 edit().putInt(PREF_KEY_LEVEL, currentLevel).apply()
@@ -149,13 +148,13 @@ class KKMushActivity : AppCompatActivity() {
 
     class AboutDialogFragment: AppCompatDialogFragment() {
         override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-            return AlertDialog.Builder(context).apply {
+            return AlertDialog.Builder(context!!).apply {
                 setTitle(R.string.menu_about)
-                setIcon(R.mipmap.ic_launcher)
+                setIcon(R.mipmap.ic_launcher_round)
                 setView(View.inflate(context, R.layout.about, null).apply {
-                    (findViewById(R.id.versionTextView) as TextView?)?.text = BuildConfig.VERSION_NAME
+                    (findViewById<TextView>(R.id.versionTextView))?.text = BuildConfig.VERSION_NAME
                 })
-                setPositiveButton(R.string.button_dismiss) { dialog, which -> dialog.dismiss() }
+                setPositiveButton(R.string.button_dismiss) { dialog, _ -> dialog.dismiss() }
             }.create()
         }
     }
