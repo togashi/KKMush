@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
 apply plugin: 'com.google.gms.google-services'
 apply plugin: 'com.google.firebase.crashlytics'
 
@@ -11,11 +12,15 @@ android {
         minSdkVersion 16
         targetSdkVersion 29
         versionCode 5
-        versionName '1.3.1'
+        versionName '1.3.1+'
 
         buildConfigField 'String', 'GIT_BRANCH', "\"${'git rev-parse --abbrev-ref HEAD'.execute([], project.rootDir).text.trim()}\""
         buildConfigField 'String', 'GIT_COMMIT', "\"${'git rev-parse HEAD'.execute([], project.rootDir).text.trim()}\""
         archivesBaseName = "kkmush-${versionName}_${versionCode}"
+    }
+
+    buildFeatures {
+        dataBinding true
     }
 
     signingConfigs {
@@ -38,12 +43,13 @@ android {
 }
 
 dependencies {
-    implementation 'androidx.appcompat:appcompat:1.1.0'
-    implementation 'androidx.preference:preference:1.1.0'
-    implementation 'com.google.firebase:firebase-analytics:17.2.3'
-    implementation 'com.google.firebase:firebase-crashlytics:17.0.0-beta01'
-
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'androidx.preference:preference-ktx:1.1.1'
+    implementation 'com.google.firebase:firebase-analytics-ktx:18.0.0'
+    implementation 'com.google.firebase:firebase-crashlytics:17.2.2'
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+
+    implementation 'com.jakewharton.timber:timber:4.7.1'
 }
 
 buildscript {

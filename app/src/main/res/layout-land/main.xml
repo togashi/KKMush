@@ -10,8 +10,8 @@
         android:layout_height="match_parent"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_toLeftOf="@+id/tool_panel"
-        android:layout_toStartOf="@+id/tool_panel">
+        android:layout_toLeftOf="@+id/vgTools"
+        android:layout_toStartOf="@+id/vgTools">
 
         <androidx.legacy.widget.Space
             android:id="@+id/center"
@@ -54,7 +54,7 @@
     </RelativeLayout>
 
     <LinearLayout
-        android:id="@+id/tool_panel"
+        android:id="@+id/vgTools"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -74,14 +74,14 @@
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <SeekBar
-            android:id="@+id/seekBar1"
+            android:id="@+id/seekBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:max="3"
             android:progress="1" />
 
         <Button
-            android:id="@+id/okbutton"
+            android:id="@+id/buttonOk"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
