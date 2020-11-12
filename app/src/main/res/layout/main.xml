@@ -1,85 +1,105 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="10dp">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="jp.togashi.android.kkmush.KKMushViewModel" />
+    </data>
 
     <RelativeLayout
-        android:layout_alignParentTop="true"
-        android:layout_above="@+id/tool_panel"
         android:layout_width="match_parent"
-        android:layout_height="0dp">
-        
-        <androidx.legacy.widget.Space
-            android:id="@+id/center"
-            android:layout_centerInParent="true"
-            android:layout_width="0dp"
-            android:layout_height="10dp" />
+        android:layout_height="match_parent"
+        android:padding="10dp">
 
-        <TextView
-            android:id="@+id/before_caption"
-            android:layout_alignParentTop="true"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/before_text"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
-
-        <TextView
-            android:id="@+id/before_text"
-            android:layout_below="@id/before_caption"
-            android:layout_above="@id/center"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            tools:text="before" />
+            android:layout_above="@+id/vgTools"
+            android:layout_alignParentTop="true">
 
-        <TextView
-            android:id="@+id/after_caption"
-            android:layout_below="@id/center"
+            <androidx.legacy.widget.Space
+                android:id="@+id/center"
+                android:layout_width="0dp"
+                android:layout_height="10dp"
+                android:layout_centerInParent="true" />
+
+            <TextView
+                android:id="@+id/before_caption"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:text="@string/before_text"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_above="@id/center"
+                android:layout_below="@id/before_caption"
+                android:autofillHints=""
+                android:gravity="top"
+                android:hint="@string/empty_hint"
+                android:inputType="textImeMultiLine|textMultiLine"
+                android:text="@={viewModel.source}"
+                tools:text="before">
+
+                <requestFocus />
+            </EditText>
+
+            <TextView
+                android:id="@+id/after_caption"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/center"
+                android:text="@string/after_text"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_below="@id/after_caption"
+                android:layout_alignParentBottom="true"
+                android:autofillHints=""
+                android:enabled="false"
+                android:gravity="top"
+                android:hint="@string/empty_hint"
+                android:inputType="textMultiLine"
+                android:text="@{viewModel.converted}"
+                tools:text="after" />
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/vgTools"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/after_text"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
-
-        <TextView
-            android:id="@+id/after_text"
-            android:layout_below="@id/after_caption"
             android:layout_alignParentBottom="true"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            tools:text="after" />
+            android:layout_marginTop="10dp"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{viewModel.koikeLevelText}"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+            <SeekBar
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:max="@{viewModel.koikeLevelMax}"
+                android:progress="@={viewModel.koikeLevel}" />
+
+            <Button
+                android:id="@+id/buttonOk"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:text="@string/okbutton" />
+        </LinearLayout>
 
     </RelativeLayout>
-
-    <LinearLayout
-        android:id="@+id/tool_panel"
-        android:layout_alignParentBottom="true"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:orientation="vertical"
-        android:padding="20dp">
-
-        <TextView
-            android:id="@+id/koike_level"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/koikelevel"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
-
-        <SeekBar
-            android:id="@+id/seekBar1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:max="3"
-            android:progress="1" />
-
-        <Button
-            android:id="@+id/okbutton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:text="@string/okbutton" />
-    </LinearLayout>
-
-</RelativeLayout>
+</layout>
